@@ -2,8 +2,8 @@ package mateacademy.onlinebookstore.service.impl;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import mateacademy.onlinebookstore.dto.BookDto;
-import mateacademy.onlinebookstore.dto.CreateBookRequestDto;
+import mateacademy.onlinebookstore.dto.book.BookDto;
+import mateacademy.onlinebookstore.dto.book.CreateBookRequestDto;
 import mateacademy.onlinebookstore.exception.EntityNotFoundException;
 import mateacademy.onlinebookstore.mapper.BookMapper;
 import mateacademy.onlinebookstore.model.Book;

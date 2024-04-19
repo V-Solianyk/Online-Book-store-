@@ -1,8 +1,8 @@
 package mateacademy.onlinebookstore.service;
 
 import java.util.List;
-import mateacademy.onlinebookstore.dto.BookDto;
-import mateacademy.onlinebookstore.dto.CreateBookRequestDto;
+import mateacademy.onlinebookstore.dto.book.BookDto;
+import mateacademy.onlinebookstore.dto.book.CreateBookRequestDto;
 import mateacademy.onlinebookstore.repository.book.BookSearchParameters;
 import org.springframework.data.domain.Pageable;
 

@@ -1,4 +1,4 @@
-package mateacademy.onlinebookstore.dto;
+package mateacademy.onlinebookstore.dto.book;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
