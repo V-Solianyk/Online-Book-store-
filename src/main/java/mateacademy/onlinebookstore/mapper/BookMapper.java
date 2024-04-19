@@ -1,8 +1,8 @@
 package mateacademy.onlinebookstore.mapper;
 
 import mateacademy.onlinebookstore.config.MapperConfig;
-import mateacademy.onlinebookstore.dto.BookDto;
-import mateacademy.onlinebookstore.dto.CreateBookRequestDto;
+import mateacademy.onlinebookstore.dto.book.BookDto;
+import mateacademy.onlinebookstore.dto.book.CreateBookRequestDto;
 import mateacademy.onlinebookstore.model.Book;
 import org.mapstruct.Mapper;
 
