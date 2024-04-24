@@ -1,4 +1,4 @@
-package mateacademy.onlinebookstore.service.user;
+package mateacademy.onlinebookstore.service.impl;
 
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +10,7 @@ import mateacademy.onlinebookstore.model.Role;
 import mateacademy.onlinebookstore.model.User;
 import mateacademy.onlinebookstore.repository.role.RoleRepository;
 import mateacademy.onlinebookstore.repository.user.UserRepository;
+import mateacademy.onlinebookstore.service.user.UserService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
