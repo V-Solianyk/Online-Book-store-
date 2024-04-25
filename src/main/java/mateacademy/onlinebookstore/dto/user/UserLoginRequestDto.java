@@ -9,7 +9,6 @@ import lombok.Setter;
 @Setter
 @Getter
 public class UserLoginRequestDto {
-    @NotEmpty
     @Email
     private String email;
     @NotEmpty

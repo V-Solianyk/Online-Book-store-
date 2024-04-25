@@ -39,14 +39,17 @@ public class SecurityConfig {
                                         .requestMatchers(HttpMethod.GET, "/swagger-ui/**",
                                                 "/swagger-ui.html")
                                         .permitAll()
-                                        .requestMatchers(HttpMethod.GET, "/api/books",
-                                                " /api/books/{id}", "/api/books/search")
+                                        .requestMatchers(HttpMethod.GET, "/api/books/**",
+                                                 "/api/categories/**")
                                         .hasRole("USER")
-                                        .requestMatchers(HttpMethod.POST, "/api/books")
+                                        .requestMatchers(HttpMethod.POST, "/api/books/**",
+                                                "/api/categories/**")
                                         .hasRole("ADMIN")
-                                        .requestMatchers(HttpMethod.PUT, "/api/books/{id}")
+                                        .requestMatchers(HttpMethod.PUT, "/api/books/**",
+                                                "/api/categories/**")
                                         .hasRole("ADMIN")
-                                        .requestMatchers(HttpMethod.DELETE, "/api/books/{id}")
+                                        .requestMatchers(HttpMethod.DELETE, "/api/books/**",
+                                                "/api/categories/**")
                                         .hasRole("ADMIN")
                                         .anyRequest()
                                         .authenticated())

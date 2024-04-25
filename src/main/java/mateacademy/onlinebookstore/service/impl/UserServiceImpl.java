@@ -25,19 +25,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponseDto register(RegisterUserRequestDto userRequestDto)
             throws RegistrationException {
-        if (userRepository.findByEmail(userRequestDto.getEmail()).isPresent()) {
-            throw new RegistrationException("Can't register this user");
-        }
-        if (checkPassword(userRequestDto.getPassword(), userRequestDto.getRepeatPassword())) {
+        if (userRequestDto.getPassword().equals(userRequestDto.getRepeatPassword())) {
+            if (userRepository.findByEmail(userRequestDto.getEmail()).isPresent()) {
+                throw new RegistrationException("Can't register this user");
+            }
             User user = mapper.toModel(userRequestDto);
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             user.setRoles(Set.of(roleRepository.findByRoleName(Role.RoleName.valueOf("USER"))));
             return mapper.toDto(userRepository.save(user));
         }
         throw new RegistrationException("The fields password and repeatPassword are not the same");
-    }
-
-    private boolean checkPassword(String password, String repeatPassword) {
-        return password.equals(repeatPassword);
     }
 }

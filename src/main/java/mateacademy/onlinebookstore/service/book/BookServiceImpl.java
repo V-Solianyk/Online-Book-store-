@@ -1,8 +1,9 @@
-package mateacademy.onlinebookstore.service.impl;
+package mateacademy.onlinebookstore.service.book;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import mateacademy.onlinebookstore.dto.book.BookDto;
+import mateacademy.onlinebookstore.dto.book.BookDtoWithoutCategoryIds;
 import mateacademy.onlinebookstore.dto.book.CreateBookRequestDto;
 import mateacademy.onlinebookstore.exception.EntityNotFoundException;
 import mateacademy.onlinebookstore.mapper.BookMapper;
@@ -10,7 +11,6 @@ import mateacademy.onlinebookstore.model.Book;
 import mateacademy.onlinebookstore.repository.BookRepository;
 import mateacademy.onlinebookstore.repository.book.BookSearchParameters;
 import mateacademy.onlinebookstore.repository.book.BookSpecificationBuilder;
-import mateacademy.onlinebookstore.service.BookService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -68,6 +68,13 @@ public class BookServiceImpl implements BookService {
         return bookRepository.findAll(bookSpecification, pageable)
                 .stream()
                 .map(bookMapper::toDto)
+                .toList();
+    }
+
+    @Override
+    public List<BookDtoWithoutCategoryIds> getAllBooksByCategoryId(Long id, Pageable pageable) {
+        return bookRepository.findAllByCategoryId(id, pageable).stream()
+                .map(bookMapper::toDtoWithoutCategories)
                 .toList();
     }
 

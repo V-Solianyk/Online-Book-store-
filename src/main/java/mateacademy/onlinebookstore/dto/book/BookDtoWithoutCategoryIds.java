@@ -1,26 +1,17 @@
 package mateacademy.onlinebookstore.dto.book;
 
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
-import java.util.Set;
 import lombok.Getter;
 import lombok.Setter;
 
 @Setter
 @Getter
-public class CreateBookRequestDto {
-    @NotBlank
+public class BookDtoWithoutCategoryIds {
+    private Long id;
     private String title;
-    @NotBlank
     private String author;
-    @NotBlank
     private String isbn;
-    @NotNull
-    @Min(0)
     private BigDecimal price;
     private String description;
     private String coverImage;
-    private Set<Long> categories;
 }
