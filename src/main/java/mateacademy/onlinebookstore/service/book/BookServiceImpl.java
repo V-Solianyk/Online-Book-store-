@@ -8,7 +8,7 @@ import mateacademy.onlinebookstore.dto.book.CreateBookRequestDto;
 import mateacademy.onlinebookstore.exception.EntityNotFoundException;
 import mateacademy.onlinebookstore.mapper.BookMapper;
 import mateacademy.onlinebookstore.model.Book;
-import mateacademy.onlinebookstore.repository.BookRepository;
+import mateacademy.onlinebookstore.repository.book.BookRepository;
 import mateacademy.onlinebookstore.repository.book.BookSearchParameters;
 import mateacademy.onlinebookstore.repository.book.BookSpecificationBuilder;
 import org.springframework.data.domain.Pageable;

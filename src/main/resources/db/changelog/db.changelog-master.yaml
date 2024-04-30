@@ -19,3 +19,9 @@ databaseChangeLog:
       file: db/changelog/changes/10-create-categories-table.sql
   - include:
       file: db/changelog/changes/11-create-book_categories-table.sql
+  - include:
+      file: db/changelog/changes/12-create-shopping_carts-table.sql
+  - include:
+      file: db/changelog/changes/13-create-user_shopping-carts_relationship.sql
+  - include:
+      file: db/changelog/changes/14-create-cart_items-table.sql

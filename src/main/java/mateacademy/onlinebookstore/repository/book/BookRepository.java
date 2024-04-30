@@ -1,4 +1,4 @@
-package mateacademy.onlinebookstore.repository;
+package mateacademy.onlinebookstore.repository.book;
 
 import java.util.List;
 import mateacademy.onlinebookstore.model.Book;
