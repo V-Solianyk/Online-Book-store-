@@ -1,6 +1,7 @@
 package mateacademy.onlinebookstore.service.shoppingcart;
 
 import lombok.RequiredArgsConstructor;
+import mateacademy.onlinebookstore.dto.shoppingcart.CartItemResponseDto;
 import mateacademy.onlinebookstore.dto.shoppingcart.CreateCartItemRequestDto;
 import mateacademy.onlinebookstore.dto.shoppingcart.ShoppingCartResponseDto;
 import mateacademy.onlinebookstore.dto.shoppingcart.UpdateCartItemRequestDto;
@@ -30,18 +31,20 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     }
 
     @Override
-    public void create(CreateCartItemRequestDto requestDto) {
+    public ShoppingCartResponseDto create(CreateCartItemRequestDto requestDto) {
         Long userId = getUserId();
         CartItem item = cartItemRepository.save(mapper.toModel(requestDto));
         ShoppingCart shoppingCart = getShoppingCart(userId);
-
         shoppingCart.getCartItems().add(item);
+
+        return mapper.toDto(shoppingCartRepository.save(shoppingCart));
     }
 
     @Override
-    public void update(UpdateCartItemRequestDto requestDto, Long cartItemId) {
+    public CartItemResponseDto update(UpdateCartItemRequestDto requestDto, Long cartItemId) {
         CartItem cartItem = getCartItem(cartItemId);
         cartItem.setQuantity(cartItem.getQuantity() + requestDto.getQuantity());
+        return mapper.toCartItemDto(cartItemRepository.save(cartItem));
     }
 
     @Override

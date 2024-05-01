@@ -1,6 +1,8 @@
 package mateacademy.onlinebookstore.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
+import mateacademy.onlinebookstore.dto.shoppingcart.CartItemResponseDto;
 import mateacademy.onlinebookstore.dto.shoppingcart.CreateCartItemRequestDto;
 import mateacademy.onlinebookstore.dto.shoppingcart.ShoppingCartResponseDto;
 import mateacademy.onlinebookstore.dto.shoppingcart.UpdateCartItemRequestDto;
@@ -23,25 +25,29 @@ public class ShoppingCartController {
 
     @GetMapping
     @PreAuthorize("hasRole('ROLE_USER')")
+    @Operation(description = "Get an user shopping cart")
     public ShoppingCartResponseDto get() {
         return shoppingCartService.getShoppingCartByUserId();
     }
 
     @PostMapping
     @PreAuthorize("hasRole('ROLE_USER')")
-    public void create(@RequestBody CreateCartItemRequestDto requestDto) {
-        shoppingCartService.create(requestDto);
+    @Operation(description = "Create a new cart item in a shopping cart")
+    public ShoppingCartResponseDto create(@RequestBody CreateCartItemRequestDto requestDto) {
+        return shoppingCartService.create(requestDto);
     }
 
     @PutMapping("/cart-items/{cartItemId}")
     @PreAuthorize("hasRole('ROLE_USER')")
-    public void update(
+    @Operation(description = "Update a quantity cart items in a shopping cart")
+    public CartItemResponseDto update(
             @RequestBody UpdateCartItemRequestDto requestDto, @PathVariable Long cartItemId) {
-        shoppingCartService.update(requestDto, cartItemId);
+        return shoppingCartService.update(requestDto, cartItemId);
     }
 
     @DeleteMapping("/cart-items/{cartItemId}")
     @PreAuthorize("hasRole('ROLE_USER')")
+    @Operation(description = "Delete a cart items in a shopping cart")
     public void deleteByCartItemId(@PathVariable Long cartItemId) {
         shoppingCartService.delete(cartItemId);
     }
