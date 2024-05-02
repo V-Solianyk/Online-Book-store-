@@ -1,0 +1,9 @@
+CREATE TABLE IF NOT EXISTS orders (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    user_id BIGINT,
+    status ENUM('COMPLETED', 'PENDING', 'DELIVERED') NOT NULL,
+    total DECIMAL(19, 2) NOT NULL,
+    order_date DATETIME NOT NULL,
+    shipping_address VARCHAR(255) NOT NULL,
+    is_deleted BOOLEAN DEFAULT FALSE,
+    FOREIGN KEY (user_id) REFERENCES users(id));

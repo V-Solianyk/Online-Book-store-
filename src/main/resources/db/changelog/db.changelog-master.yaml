@@ -25,3 +25,7 @@ databaseChangeLog:
       file: db/changelog/changes/13-create-user_shopping-carts_relationship.sql
   - include:
       file: db/changelog/changes/14-create-cart_items-table.sql
+  - include:
+      file: db/changelog/changes/15-create-orders-table.sql
+  - include:
+      file: db/changelog/changes/16-create-order_items-table.sql

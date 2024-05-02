@@ -15,11 +15,15 @@ import java.util.HashSet;
 import java.util.Set;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
 @Table(name = "users")
+@SQLDelete(sql = "UPDATE users SET is_deleted = true WHERE id=?")
+@Where(clause = "is_deleted=false")
 @Getter
 @Setter
 public class User implements UserDetails {
@@ -76,7 +80,7 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return !isDeleted;
     }
 
     @Override
@@ -85,7 +89,6 @@ public class User implements UserDetails {
                 + "shippingAddress='" + shippingAddress + '\''
                 + ", lastName='" + lastName + '\''
                 + ", firstName='" + firstName + '\''
-                + ", password='" + password + '\''
                 + ", email='" + email + '\''
                 + ", id=" + id
                 + '}';
