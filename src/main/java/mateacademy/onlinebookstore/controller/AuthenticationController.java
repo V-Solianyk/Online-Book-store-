@@ -30,7 +30,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login")
-    @Operation(summary = "Sing in a new user")
+    @Operation(summary = "Sing in a user")
     public UserLoginResponseDto login(@RequestBody @Valid UserLoginRequestDto loginRequestDto) {
         return authenticationService.login(loginRequestDto);
     }

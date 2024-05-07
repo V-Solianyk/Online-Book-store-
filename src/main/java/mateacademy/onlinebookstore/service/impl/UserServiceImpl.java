@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
+    private static final String ROLE = "USER";
     private final UserRepository userRepository;
     private final UserRegistrationMapper mapper;
     private final RoleRepository roleRepository;
@@ -25,15 +26,20 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponseDto register(RegisterUserRequestDto userRequestDto)
             throws RegistrationException {
-        if (userRequestDto.getPassword().equals(userRequestDto.getRepeatPassword())) {
+        if (checkPassword(userRequestDto)) {
             if (userRepository.findByEmail(userRequestDto.getEmail()).isPresent()) {
-                throw new RegistrationException("Can't register this user");
+                throw new RegistrationException("User already exists with this email: "
+                        + userRequestDto.getEmail());
             }
             User user = mapper.toModel(userRequestDto);
             user.setPassword(passwordEncoder.encode(user.getPassword()));
-            user.setRoles(Set.of(roleRepository.findByRoleName(Role.RoleName.valueOf("USER"))));
+            user.setRoles(Set.of(roleRepository.findByRoleName(Role.RoleName.valueOf(ROLE))));
             return mapper.toDto(userRepository.save(user));
         }
         throw new RegistrationException("The fields password and repeatPassword are not the same");
+    }
+
+    private static boolean checkPassword(RegisterUserRequestDto userRequestDto) {
+        return userRequestDto.getPassword().equals(userRequestDto.getRepeatPassword());
     }
 }

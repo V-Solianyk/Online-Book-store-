@@ -39,4 +39,3 @@ public interface BookMapper {
         book.setCategories(mapCategoryIdsToCategories(bookDto.getCategoryIds()));
     }
 }
-
