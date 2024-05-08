@@ -30,7 +30,8 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
             MethodArgumentNotValidException ex, HttpHeaders headers,
             HttpStatusCode status, WebRequest request) {
-        Map<String, Object> body = initialMap();
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put(TIMESTAMP, LocalDateTime.now());
         body.put(STATUS, HttpStatus.BAD_REQUEST);
         List<String> errors = ex.getBindingResult().getAllErrors().stream()
                 .map(this::getErrorMassage)
@@ -42,10 +43,8 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
     @ExceptionHandler(RegistrationException.class)
     protected ResponseEntity<Object> handleRegistrationException(
             RegistrationException ex, WebRequest request) {
-        Map<String, Object> body = initialMap();
-        body.put(STATUS, HttpStatus.INTERNAL_SERVER_ERROR);
-        body.put(ERROR, "Registration Error");
-        body.put(MESSAGE, ex.getMessage());
+        Map<String, Object> body = getExceptionResponseBody(HttpStatus.INTERNAL_SERVER_ERROR,
+                "Registration Error", ex.getMessage());
 
         return new ResponseEntity<>(body, HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -53,10 +52,8 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
     @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
     protected ResponseEntity<Object> handleIntegrityConstraintViolationException(
             SQLIntegrityConstraintViolationException ex, WebRequest request) {
-        Map<String, Object> body = initialMap();
-        body.put(STATUS, HttpStatus.BAD_REQUEST);
-        body.put(ERROR, "Database Constraint Violation");
-        body.put(MESSAGE, "The entry already exists in the database.");
+        Map<String, Object> body = getExceptionResponseBody(HttpStatus.BAD_REQUEST,
+                "Database Constraint Violation", "The entry already exists in the database.");
 
         return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
     }
@@ -64,10 +61,8 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
     @ExceptionHandler(JwtException.class)
     protected ResponseEntity<Object> handleJwtException(
             JwtException ex, WebRequest request) {
-        Map<String, Object> body = initialMap();
-        body.put(STATUS, HttpStatus.UNAUTHORIZED);
-        body.put(ERROR, "Invalid JWT Token");
-        body.put(MESSAGE, "The JWT token provided is either expired or invalid.");
+        Map<String, Object> body = getExceptionResponseBody(HttpStatus.UNAUTHORIZED,
+                "Invalid JWT Token", "The JWT token provided is either expired or invalid.");
 
         return new ResponseEntity<>(body, HttpStatus.UNAUTHORIZED);
     }
@@ -75,17 +70,19 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
     @ExceptionHandler(EntityNotFoundException.class)
     protected ResponseEntity<Object> entityNotFoundException(
             EntityNotFoundException ex, WebRequest request) {
-        Map<String, Object> body = initialMap();
-        body.put(STATUS, HttpStatus.NOT_FOUND);
-        body.put(ERROR, "EntityNotFoundException");
-        body.put(MESSAGE, ex.getMessage());
+        Map<String, Object> body = getExceptionResponseBody(HttpStatus.NOT_FOUND,
+                "EntityNotFoundException", ex.getMessage());
 
         return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
     }
 
-    private Map<String, Object> initialMap() {
+    private Map<String, Object> getExceptionResponseBody(
+            HttpStatus status, String error, String message) {
         Map<String, Object> body = new LinkedHashMap<>();
         body.put(TIMESTAMP, LocalDateTime.now());
+        body.put(STATUS, status);
+        body.put(ERROR, error);
+        body.put(MESSAGE, message);
         return body;
     }
 

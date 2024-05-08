@@ -26,20 +26,21 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponseDto register(RegisterUserRequestDto userRequestDto)
             throws RegistrationException {
-        if (checkPassword(userRequestDto)) {
-            if (userRepository.findByEmail(userRequestDto.getEmail()).isPresent()) {
-                throw new RegistrationException("User already exists with this email: "
-                        + userRequestDto.getEmail());
-            }
-            User user = mapper.toModel(userRequestDto);
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
-            user.setRoles(Set.of(roleRepository.findByRoleName(Role.RoleName.valueOf(ROLE))));
-            return mapper.toDto(userRepository.save(user));
+        if (!isPasswordSame(userRequestDto)) {
+            throw new RegistrationException("The fields password and repeatPassword"
+                    + " are not the same");
         }
-        throw new RegistrationException("The fields password and repeatPassword are not the same");
+        if (userRepository.findByEmail(userRequestDto.getEmail()).isPresent()) {
+            throw new RegistrationException("User already exists with this email: "
+                    + userRequestDto.getEmail());
+        }
+        User user = mapper.toModel(userRequestDto);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRoles(Set.of(roleRepository.findByRoleName(Role.RoleName.valueOf(ROLE))));
+        return mapper.toDto(userRepository.save(user));
     }
 
-    private static boolean checkPassword(RegisterUserRequestDto userRequestDto) {
+    private boolean isPasswordSame(RegisterUserRequestDto userRequestDto) {
         return userRequestDto.getPassword().equals(userRequestDto.getRepeatPassword());
     }
 }
