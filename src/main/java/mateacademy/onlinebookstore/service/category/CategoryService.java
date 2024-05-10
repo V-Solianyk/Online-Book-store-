@@ -1,12 +1,12 @@
 package mateacademy.onlinebookstore.service.category;
 
-import java.util.List;
 import mateacademy.onlinebookstore.dto.category.CategoryRequestDto;
 import mateacademy.onlinebookstore.dto.category.CategoryResponseDto;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface CategoryService {
-    List<CategoryResponseDto> findAll(Pageable pageable);
+    Page<CategoryResponseDto> findAll(Pageable pageable);
 
     CategoryResponseDto getById(Long id);
 
