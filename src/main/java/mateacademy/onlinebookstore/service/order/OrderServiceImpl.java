@@ -22,6 +22,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -33,11 +34,13 @@ public class OrderServiceImpl implements OrderService {
     private final ShoppingCartRepository shoppingCartRepository;
 
     @Override
+    @Transactional
     public OrderResponseDto create(OrderRequestDto orderRequestDto) {
         Order order = orderMapper.orderRequestDtoToModel(orderRequestDto);
         order.setUser(getUser());
         order.setStatus(Order.Status.PENDING);
-        ShoppingCart shoppingCart = shoppingCartRepository.findByUserId(getUser().getId()).get();
+        ShoppingCart shoppingCart = shoppingCartRepository
+                .findByUserIdWithItems(getUser().getId()).get();
         BigDecimal total = shoppingCart.getCartItems().stream()
                 .map(cartItem -> (BigDecimal.valueOf(cartItem.getQuantity())
                         .multiply(cartItem.getBook().getPrice())))
@@ -60,6 +63,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public boolean updateOrderStatus(UpdateOrderStatusDto orderStatusDto, Long id) {
         Order order = orderRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("The order by this id doesn't exist: " + id));

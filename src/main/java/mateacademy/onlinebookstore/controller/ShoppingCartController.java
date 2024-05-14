@@ -7,6 +7,7 @@ import mateacademy.onlinebookstore.dto.shoppingcart.CreateCartItemRequestDto;
 import mateacademy.onlinebookstore.dto.shoppingcart.ShoppingCartResponseDto;
 import mateacademy.onlinebookstore.dto.shoppingcart.UpdateCartItemRequestDto;
 import mateacademy.onlinebookstore.service.shoppingcart.ShoppingCartService;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -33,6 +35,7 @@ public class ShoppingCartController {
     @PostMapping
     @PreAuthorize("hasRole('ROLE_USER')")
     @Operation(description = "Create a new cart item in a shopping cart")
+    @ResponseStatus(HttpStatus.CREATED)
     public ShoppingCartResponseDto create(@RequestBody CreateCartItemRequestDto requestDto) {
         return shoppingCartService.create(requestDto);
     }
@@ -48,6 +51,7 @@ public class ShoppingCartController {
     @DeleteMapping("/cart-items/{cartItemId}")
     @PreAuthorize("hasRole('ROLE_USER')")
     @Operation(description = "Delete a cart items in a shopping cart")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteByCartItemId(@PathVariable Long cartItemId) {
         shoppingCartService.delete(cartItemId);
     }

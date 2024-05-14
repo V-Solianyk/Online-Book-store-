@@ -11,4 +11,3 @@ public class CartItemResponseDto {
     private String bookTitle;
     private int quantity;
 }
-
