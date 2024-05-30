@@ -18,6 +18,7 @@ import mateacademy.onlinebookstore.repository.order.OrderItemRepository;
 import mateacademy.onlinebookstore.repository.order.OrderRepository;
 import mateacademy.onlinebookstore.repository.shopingcart.ShoppingCartRepository;
 import mateacademy.onlinebookstore.repository.user.UserRepository;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -36,30 +37,17 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public OrderResponseDto create(OrderRequestDto orderRequestDto) {
-        Order order = orderMapper.orderRequestDtoToModel(orderRequestDto);
-        order.setUser(getUser());
-        order.setStatus(Order.Status.PENDING);
-        ShoppingCart shoppingCart = shoppingCartRepository
-                .findByUserIdWithItems(getUser().getId()).get();
-        BigDecimal total = shoppingCart.getCartItems().stream()
-                .map(cartItem -> (BigDecimal.valueOf(cartItem.getQuantity())
-                        .multiply(cartItem.getBook().getPrice())))
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
-        order.setTotal(total);
-        Set<OrderItem> orderItems = shoppingCart.getCartItems().stream()
-                .map(cartItem -> new OrderItem(cartItem.getBook(), cartItem.getQuantity(),
-                        cartItem.getBook().getPrice(), cartItem.isDeleted()))
-                .collect(Collectors.toSet());
-        order.setOrderItems(orderItems);
+        Order order = initializeOrderForUser(orderRequestDto);
+        ShoppingCart shoppingCart = retrieveCartAndSetOrderTotal(order);
+        convertCartItemsToOrderItems(shoppingCart, order);
         return orderMapper.orderToDto(orderRepository.save(order));
     }
 
     @Override
-    public Set<OrderResponseDto> getAll(Pageable pageable) {
+    public Page<OrderResponseDto> getAll(Pageable pageable) {
         Long userId = getUser().getId();
-        return orderRepository.findAllByUserId(userId, pageable).stream()
-                .map(orderMapper::orderToDto)
-                .collect(Collectors.toSet());
+        return orderRepository.findAllByUserId(userId, pageable)
+                .map(orderMapper::orderToDto);
     }
 
     @Override
@@ -67,14 +55,9 @@ public class OrderServiceImpl implements OrderService {
     public boolean updateOrderStatus(UpdateOrderStatusDto orderStatusDto, Long id) {
         Order order = orderRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("The order by this id doesn't exist: " + id));
-        if (orderStatusDto.getStatus().equals(Order.Status.COMPLETED)
-                || orderStatusDto.getStatus().equals(Order.Status.PENDING)
-                || orderStatusDto.getStatus().equals(Order.Status.DELIVERED)) {
-            order.setStatus(orderStatusDto.getStatus());
-            orderRepository.save(order);
-            return true;
-        }
-        throw new RuntimeException("Can't update the order status by order id: " + id);
+        order.setStatus(orderStatusDto.getStatus());
+        orderRepository.save(order);
+        return true;
     }
 
     @Override
@@ -96,5 +79,31 @@ public class OrderServiceImpl implements OrderService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = (String) authentication.getDetails();
         return userRepository.findByEmail(email).get();
+    }
+
+    private void convertCartItemsToOrderItems(ShoppingCart shoppingCart, Order order) {
+        Set<OrderItem> orderItems = shoppingCart.getCartItems().stream()
+                .map(cartItem -> new OrderItem(cartItem.getBook(), cartItem.getQuantity(),
+                        cartItem.getBook().getPrice()))
+                .collect(Collectors.toSet());
+        order.setOrderItems(orderItems);
+    }
+
+    private ShoppingCart retrieveCartAndSetOrderTotal(Order order) {
+        ShoppingCart shoppingCart = shoppingCartRepository
+                .findByUserIdWithItems(getUser().getId()).get();
+        BigDecimal total = shoppingCart.getCartItems().stream()
+                .map(cartItem -> (BigDecimal.valueOf(cartItem.getQuantity())
+                        .multiply(cartItem.getBook().getPrice())))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        order.setTotal(total);
+        return shoppingCart;
+    }
+
+    private Order initializeOrderForUser(OrderRequestDto orderRequestDto) {
+        Order order = orderMapper.orderRequestDtoToModel(orderRequestDto);
+        order.setUser(getUser());
+        order.setStatus(Order.Status.PENDING);
+        return order;
     }
 }

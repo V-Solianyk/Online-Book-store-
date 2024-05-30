@@ -8,6 +8,7 @@ import mateacademy.onlinebookstore.dto.order.OrderRequestDto;
 import mateacademy.onlinebookstore.dto.order.OrderResponseDto;
 import mateacademy.onlinebookstore.dto.order.UpdateOrderStatusDto;
 import mateacademy.onlinebookstore.service.order.OrderService;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -37,7 +38,7 @@ public class OrderController {
     @GetMapping
     @PreAuthorize("hasRole('ROLE_USER')")
     @Operation(description = "Retrieve user's order history")
-    public Set<OrderResponseDto> getOrders(Pageable pageable) {
+    public Page<OrderResponseDto> getOrders(Pageable pageable) {
         return orderService.getAll(pageable);
     }
 

@@ -39,10 +39,9 @@ public class OrderItem {
     private BigDecimal price;
     private boolean isDeleted = false;
 
-    public OrderItem(Book book, int quantity, BigDecimal price, boolean isDeleted) {
+    public OrderItem(Book book, int quantity, BigDecimal price) {
         this.book = book;
         this.quantity = quantity;
         this.price = price;
-        this.isDeleted = isDeleted;
     }
 }
