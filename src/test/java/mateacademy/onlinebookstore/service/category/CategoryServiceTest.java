@@ -55,7 +55,6 @@ class CategoryServiceTest {
 
     @Test
     void getById_GetCategoryFromDb_Ok() {
-        Long id = 10L;
         Category category = new Category();
         category.setName("Math");
         category.setDescription("Educational");
@@ -63,6 +62,7 @@ class CategoryServiceTest {
         CategoryResponseDto expected = new CategoryResponseDto();
         expected.setName(category.getName());
         expected.setDescription(category.getDescription());
+        Long id = 10L;
 
         when(categoryRepository.findById(id)).thenReturn(Optional.of(category));
         when(mapper.toDto(category)).thenReturn(expected);
@@ -107,7 +107,6 @@ class CategoryServiceTest {
 
     @Test
     void update_updatedAllFields_Ok() {
-        Long id = 10L;
         CategoryRequestDto requestDto = new CategoryRequestDto();
         requestDto.setName("Math");
         requestDto.setDescription("Educational");
@@ -119,6 +118,8 @@ class CategoryServiceTest {
         CategoryResponseDto expected = new CategoryResponseDto();
         expected.setName(requestDto.getName());
         expected.setDescription(requestDto.getDescription());
+
+        Long id = 10L;
 
         when(categoryRepository.findById(id)).thenReturn(Optional.of(category));
         when(categoryRepository.save(category)).thenReturn(category);
