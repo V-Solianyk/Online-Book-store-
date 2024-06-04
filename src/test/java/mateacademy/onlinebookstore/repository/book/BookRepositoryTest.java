@@ -96,4 +96,3 @@ class BookRepositoryTest {
         Assertions.assertTrue(book.isEmpty());
     }
 }
-
