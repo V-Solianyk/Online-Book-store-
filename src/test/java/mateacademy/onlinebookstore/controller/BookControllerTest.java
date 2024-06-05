@@ -52,7 +52,7 @@ public class BookControllerTest {
     @Sql(scripts = {"classpath:database/category/add-categories-to-categories-table.sql"},
             executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(scripts = {"classpath:database/category/remove-categories.sql",
-            "database/books/remove-books.sql"},
+            "classpath:database/books/remove-books.sql"},
             executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     void create_ValidRequest_Ok() throws Exception {
         CreateBookRequestDto requestDto = new CreateBookRequestDto();
@@ -89,7 +89,7 @@ public class BookControllerTest {
     @Sql(scripts = {"classpath:database/category/add-categories-to-categories-table.sql"},
             executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(scripts = {"classpath:database/category/remove-categories.sql",
-            "database/books/remove-books.sql"},
+            "classpath:database/books/remove-books.sql"},
             executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     void create_InvalidRequestEmptyTitle_ShouldThrowException() throws Exception {
         CreateBookRequestDto requestDto = new CreateBookRequestDto();
@@ -124,7 +124,7 @@ public class BookControllerTest {
     @Sql(scripts = {"classpath:database/category/add-categories-to-categories-table.sql"},
             executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(scripts = {"classpath:database/category/remove-categories.sql",
-            "database/books/remove-books.sql"},
+            "classpath:database/books/remove-books.sql"},
             executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     void create_InvalidRequestEmptyAuthor_ShouldThrowException() throws Exception {
         CreateBookRequestDto requestDto = new CreateBookRequestDto();
@@ -159,7 +159,7 @@ public class BookControllerTest {
     @Sql(scripts = {"classpath:database/category/add-categories-to-categories-table.sql"},
             executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(scripts = {"classpath:database/category/remove-categories.sql",
-            "database/books/remove-books.sql"},
+            "classpath:database/books/remove-books.sql"},
             executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     void create_InvalidRequestEmptyIsbn_ShouldThrowException() throws Exception {
         CreateBookRequestDto requestDto = new CreateBookRequestDto();
@@ -192,11 +192,13 @@ public class BookControllerTest {
     @Test
     @DisplayName("Get all books")
     @Sql(scripts = {"classpath:database/category/add-categories-to-categories-table.sql",
-            "database/books/add-books-by-category-to-books-table.sql ",
-            "database/book_categories/add-bookId-categoryId-to-book_categories-table.sql"},
+            "classpath:database/books/add-books-by-category-to-books-table.sql ",
+            "classpath:database/book_categories/"
+                    + "add-bookId-categoryId-to-book_categories-table.sql"},
             executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(scripts = {"classpath:database/book_categories/remove-bookId-categoryId.sql",
-            "database/books/remove-books.sql", "database/category/remove-categories.sql"},
+            "classpath:database/books/remove-books.sql",
+            "classpath:database/category/remove-categories.sql"},
             executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     void getAll_getThreeBooks_Ok() throws Exception {
         MvcResult mvcResult = mockMvc.perform(
@@ -215,11 +217,13 @@ public class BookControllerTest {
     @Test
     @DisplayName("Get the book by id")
     @Sql(scripts = {"classpath:database/category/add-categories-to-categories-table.sql",
-            "database/books/add-books-by-category-to-books-table.sql ",
-            "database/book_categories/add-bookId-categoryId-to-book_categories-table.sql"},
+            "classpath:database/books/add-books-by-category-to-books-table.sql ",
+            "classpath:database/book_categories/"
+                    + "add-bookId-categoryId-to-book_categories-table.sql"},
             executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(scripts = {"classpath:database/book_categories/remove-bookId-categoryId.sql",
-            "database/books/remove-books.sql", "database/category/remove-categories.sql"},
+            "classpath:database/books/remove-books.sql",
+            "classpath:database/category/remove-categories.sql"},
             executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     void getById_ReturnsBook_Ok() throws Exception {
         MvcResult mvcResult = mockMvc.perform(
@@ -258,11 +262,13 @@ public class BookControllerTest {
     @Test
     @DisplayName("Delete the book by id")
     @Sql(scripts = {"classpath:database/category/add-categories-to-categories-table.sql",
-            "database/books/add-books-by-category-to-books-table.sql ",
-            "database/book_categories/add-bookId-categoryId-to-book_categories-table.sql"},
+            "classpath:database/books/add-books-by-category-to-books-table.sql ",
+            "classpath:database/book_categories/"
+                    + "add-bookId-categoryId-to-book_categories-table.sql"},
             executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(scripts = {"classpath:database/book_categories/remove-bookId-categoryId.sql",
-            "database/books/remove-books.sql", "database/category/remove-categories.sql"},
+            "classpath:database/books/remove-books.sql",
+            "classpath:database/category/remove-categories.sql"},
             executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     void delete_DeleteBookById_Ok() throws Exception {
         mockMvc.perform(

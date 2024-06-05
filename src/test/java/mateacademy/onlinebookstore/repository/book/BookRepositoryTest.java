@@ -26,11 +26,13 @@ class BookRepositoryTest {
             Find all books where category id is 1
             """)
     @Sql(scripts = {"classpath:database/category/add-categories-to-categories-table.sql",
-            "database/books/add-books-by-category-to-books-table.sql ",
-            "database/book_categories/add-bookId-categoryId-to-book_categories-table.sql"},
+            "classpath:database/books/add-books-by-category-to-books-table.sql ",
+            "classpath:database/book_categories/"
+                    + "add-bookId-categoryId-to-book_categories-table.sql"},
             executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(scripts = {"classpath:database/book_categories/remove-bookId-categoryId.sql",
-            "database/books/remove-books.sql", "database/category/remove-categories.sql"},
+            "classpath:database/books/remove-books.sql",
+            "classpath:database/category/remove-categories.sql"},
             executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     void findAllByCategoryId_CategoryIdIs1_ReturnTwoBooks() {
         PageRequest pageable = PageRequest.of(0, 10);
@@ -44,11 +46,13 @@ class BookRepositoryTest {
             Find all books with categories
             """)
     @Sql(scripts = {"classpath:database/category/add-categories-to-categories-table.sql",
-            "database/books/add-books-by-category-to-books-table.sql ",
-            "database/book_categories/add-bookId-categoryId-to-book_categories-table.sql"},
+            "classpath:database/books/add-books-by-category-to-books-table.sql ",
+            "classpath:database/book_categories/"
+                    + "add-bookId-categoryId-to-book_categories-table.sql"},
             executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(scripts = {"classpath:database/book_categories/remove-bookId-categoryId.sql",
-            "database/books/remove-books.sql", "database/category/remove-categories.sql"},
+            "classpath:database/books/remove-books.sql",
+            "classpath:database/category/remove-categories.sql"},
             executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     void findAllByBooksWithCategories_ReturnThreeBooks() {
         PageRequest pageable = PageRequest.of(0, 10);
@@ -62,11 +66,13 @@ class BookRepositoryTest {
             Find the book by id with categories
             """)
     @Sql(scripts = {"classpath:database/category/add-categories-to-categories-table.sql",
-            "database/books/add-books-by-category-to-books-table.sql ",
-            "database/book_categories/add-bookId-categoryId-to-book_categories-table.sql"},
+            "classpath:database/books/add-books-by-category-to-books-table.sql ",
+            "classpath:database/book_categories/"
+                    + "add-bookId-categoryId-to-book_categories-table.sql"},
             executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(scripts = {"classpath:database/book_categories/remove-bookId-categoryId.sql",
-            "database/books/remove-books.sql", "database/category/remove-categories.sql"},
+            "classpath:database/books/remove-books.sql",
+            "classpath:database/category/remove-categories.sql"},
             executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     void findBookByIdWithCategories_BookIdIs1_ReturnBook() {
         Long id = 1L;
@@ -84,11 +90,13 @@ class BookRepositoryTest {
             Find an optional book by not existed id
             """)
     @Sql(scripts = {"classpath:database/category/add-categories-to-categories-table.sql",
-            "database/books/add-books-by-category-to-books-table.sql ",
-            "database/book_categories/add-bookId-categoryId-to-book_categories-table.sql"},
+            "classpath:database/books/add-books-by-category-to-books-table.sql ",
+            "classpath:database/book_categories/"
+                    + "add-bookId-categoryId-to-book_categories-table.sql"},
             executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(scripts = {"classpath:database/book_categories/remove-bookId-categoryId.sql",
-            "database/books/remove-books.sql", "database/category/remove-categories.sql"},
+            "classpath:database/books/remove-books.sql",
+            "classpath:database/category/remove-categories.sql"},
             executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     void findBookByIdWithCategories_BookIdIs999_ReturnEmptyOptional() {
         Long id = 999L;

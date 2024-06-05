@@ -92,7 +92,7 @@ public class CategoryControllerTest {
     @DisplayName("Get all categories")
     @Sql(scripts = {"classpath:database/category/add-categories-to-categories-table.sql"},
             executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @Sql(scripts = {"database/category/remove-categories.sql"},
+    @Sql(scripts = {"classpath:database/category/remove-categories.sql"},
             executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     void getAll_getTwoCategories_Ok() throws Exception {
         mockMvc.perform(
@@ -107,7 +107,7 @@ public class CategoryControllerTest {
     @DisplayName("Get category by id")
     @Sql(scripts = {"classpath:database/category/add-categories-to-categories-table.sql"},
             executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @Sql(scripts = {"database/category/remove-categories.sql"},
+    @Sql(scripts = {"classpath:database/category/remove-categories.sql"},
             executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     void getById_ReturnsCategory_Ok() throws Exception {
         MvcResult mvcResult = mockMvc.perform(
@@ -146,7 +146,7 @@ public class CategoryControllerTest {
     @DisplayName("Delete the category by id")
     @Sql(scripts = {"classpath:database/category/add-categories-to-categories-table.sql"},
             executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @Sql(scripts = {"database/category/remove-categories.sql"},
+    @Sql(scripts = {"classpath:database/category/remove-categories.sql"},
             executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     void delete_DeleteCategoryById_Ok() throws Exception {
         mockMvc.perform(
