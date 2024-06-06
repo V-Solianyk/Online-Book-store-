@@ -26,7 +26,7 @@ class BookRepositoryTest {
             Find all books where category id is 1
             """)
     @Sql(scripts = {"classpath:database/category/add-categories-to-categories-table.sql",
-            "classpath:database/books/add-books-by-category-to-books-table.sql ",
+            "classpath:database/books/add-books-by-category-to-books-table.sql",
             "classpath:database/book_categories/"
                     + "add-bookId-categoryId-to-book_categories-table.sql"},
             executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
@@ -46,7 +46,7 @@ class BookRepositoryTest {
             Find all books with categories
             """)
     @Sql(scripts = {"classpath:database/category/add-categories-to-categories-table.sql",
-            "classpath:database/books/add-books-by-category-to-books-table.sql ",
+            "classpath:database/books/add-books-by-category-to-books-table.sql",
             "classpath:database/book_categories/"
                     + "add-bookId-categoryId-to-book_categories-table.sql"},
             executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
@@ -66,7 +66,7 @@ class BookRepositoryTest {
             Find the book by id with categories
             """)
     @Sql(scripts = {"classpath:database/category/add-categories-to-categories-table.sql",
-            "classpath:database/books/add-books-by-category-to-books-table.sql ",
+            "classpath:database/books/add-books-by-category-to-books-table.sql",
             "classpath:database/book_categories/"
                     + "add-bookId-categoryId-to-book_categories-table.sql"},
             executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
@@ -90,7 +90,7 @@ class BookRepositoryTest {
             Find an optional book by not existed id
             """)
     @Sql(scripts = {"classpath:database/category/add-categories-to-categories-table.sql",
-            "classpath:database/books/add-books-by-category-to-books-table.sql ",
+            "classpath:database/books/add-books-by-category-to-books-table.sql",
             "classpath:database/book_categories/"
                     + "add-bookId-categoryId-to-book_categories-table.sql"},
             executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)

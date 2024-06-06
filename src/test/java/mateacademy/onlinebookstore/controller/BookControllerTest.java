@@ -192,7 +192,7 @@ public class BookControllerTest {
     @Test
     @DisplayName("Get all books")
     @Sql(scripts = {"classpath:database/category/add-categories-to-categories-table.sql",
-            "classpath:database/books/add-books-by-category-to-books-table.sql ",
+            "classpath:database/books/add-books-by-category-to-books-table.sql",
             "classpath:database/book_categories/"
                     + "add-bookId-categoryId-to-book_categories-table.sql"},
             executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
@@ -217,7 +217,7 @@ public class BookControllerTest {
     @Test
     @DisplayName("Get the book by id")
     @Sql(scripts = {"classpath:database/category/add-categories-to-categories-table.sql",
-            "classpath:database/books/add-books-by-category-to-books-table.sql ",
+            "classpath:database/books/add-books-by-category-to-books-table.sql",
             "classpath:database/book_categories/"
                     + "add-bookId-categoryId-to-book_categories-table.sql"},
             executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
@@ -262,7 +262,7 @@ public class BookControllerTest {
     @Test
     @DisplayName("Delete the book by id")
     @Sql(scripts = {"classpath:database/category/add-categories-to-categories-table.sql",
-            "classpath:database/books/add-books-by-category-to-books-table.sql ",
+            "classpath:database/books/add-books-by-category-to-books-table.sql",
             "classpath:database/book_categories/"
                     + "add-bookId-categoryId-to-book_categories-table.sql"},
             executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
