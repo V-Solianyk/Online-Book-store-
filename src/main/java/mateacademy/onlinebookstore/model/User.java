@@ -9,25 +9,26 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.Email;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
 @Table(name = "users")
+@SQLDelete(sql = "UPDATE users SET is_deleted = true WHERE id=?")
+@Where(clause = "is_deleted=false")
 @Getter
 @Setter
-
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Email
     @Column(unique = true, nullable = false)
     private String email;
     @Column(nullable = false)
@@ -38,6 +39,8 @@ public class User implements UserDetails {
     private String lastName;
     @Column(name = "shipping_address")
     private String shippingAddress;
+    @Column(nullable = false)
+    private boolean isDeleted = false;
     @ManyToMany
     @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -76,7 +79,7 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return !isDeleted;
     }
 
     @Override
@@ -85,7 +88,6 @@ public class User implements UserDetails {
                 + "shippingAddress='" + shippingAddress + '\''
                 + ", lastName='" + lastName + '\''
                 + ", firstName='" + firstName + '\''
-                + ", password='" + password + '\''
                 + ", email='" + email + '\''
                 + ", id=" + id
                 + '}';

@@ -1,9 +1,16 @@
 package mateacademy.onlinebookstore.dto.book;
 
 import java.math.BigDecimal;
-import lombok.Data;
+import java.util.Set;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class BookDto {
     private Long id;
     private String title;
@@ -12,4 +19,5 @@ public class BookDto {
     private BigDecimal price;
     private String description;
     private String coverImage;
+    private Set<Long> categoryIds;
 }

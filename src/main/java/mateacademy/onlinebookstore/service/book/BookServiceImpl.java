@@ -1,16 +1,16 @@
-package mateacademy.onlinebookstore.service.impl;
+package mateacademy.onlinebookstore.service.book;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import mateacademy.onlinebookstore.dto.book.BookDto;
+import mateacademy.onlinebookstore.dto.book.BookDtoWithoutCategoryIds;
 import mateacademy.onlinebookstore.dto.book.CreateBookRequestDto;
 import mateacademy.onlinebookstore.exception.EntityNotFoundException;
 import mateacademy.onlinebookstore.mapper.BookMapper;
 import mateacademy.onlinebookstore.model.Book;
-import mateacademy.onlinebookstore.repository.BookRepository;
+import mateacademy.onlinebookstore.repository.book.BookRepository;
 import mateacademy.onlinebookstore.repository.book.BookSearchParameters;
 import mateacademy.onlinebookstore.repository.book.BookSpecificationBuilder;
-import mateacademy.onlinebookstore.service.BookService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -31,7 +31,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public List<BookDto> findAll(Pageable pageable) {
-        return bookRepository.findAll(pageable).stream()
+        return bookRepository.findAllWithCategories(pageable).stream()
                 .map(bookMapper::toDto)
                 .toList();
     }
@@ -57,9 +57,8 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public void deleteById(Long id) {
-        Book book = getBookById(id);
-        book.setDeleted(true);
-        bookRepository.save(book);
+        getBookById(id);
+        bookRepository.deleteById(id);
     }
 
     @Override
@@ -71,8 +70,15 @@ public class BookServiceImpl implements BookService {
                 .toList();
     }
 
+    @Override
+    public List<BookDtoWithoutCategoryIds> getAllBooksByCategoryId(Long id, Pageable pageable) {
+        return bookRepository.findAllByCategoryId(id, pageable).stream()
+                .map(bookMapper::toDtoWithoutCategories)
+                .toList();
+    }
+
     private Book getBookById(Long id) {
-        return bookRepository.findById(id)
+        return bookRepository.findByIdWithCategories(id)
                 .orElseThrow(() -> new EntityNotFoundException("Can't find a book with"
                         + " id : " + id));
     }

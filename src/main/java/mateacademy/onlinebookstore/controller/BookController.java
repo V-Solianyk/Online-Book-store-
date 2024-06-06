@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 import mateacademy.onlinebookstore.dto.book.BookDto;
 import mateacademy.onlinebookstore.dto.book.CreateBookRequestDto;
 import mateacademy.onlinebookstore.repository.book.BookSearchParameters;
-import mateacademy.onlinebookstore.service.BookService;
+import mateacademy.onlinebookstore.service.book.BookService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -31,6 +31,7 @@ public class BookController {
 
     @PostMapping
     @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Create a new book", description = "Create a new book")
     public BookDto create(@RequestBody @Valid CreateBookRequestDto requestDto) {
         return bookService.save(requestDto);
